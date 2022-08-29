@@ -48,7 +48,7 @@ const Home = (props) => {
   // const equals = (e) => {
   //   dispatch({ type: "myCal/equals" });
   // };
-
+)
 
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
@@ -170,8 +170,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
+   reset: dispatch?.myCal.reset,
+   equals: dispatch?.myCal.equals,
 });
 
 

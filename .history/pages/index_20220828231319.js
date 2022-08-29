@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { myCal } from './../.history/models/models_20220826095827';
 
-const Home = (props) => {
-  const {preState, curState, input, operator, total, reset, equals, setState} = props
+export default function Home() {
+  const { preState, curState, total, input, operator } = useSelector(
+    (state) => state.myCal
+  );
+
+  const dispatch = useDispatch();
+
   const inputNum = (e) => {
     const payload = {};
     if (curState.includes(".") && e.target.innerText === ".") return;
@@ -41,14 +47,34 @@ const Home = (props) => {
       dispatch({
         type: "myCal/setState",
         payload: { preState: curState, curState: "" },
-      }); 
-      null
+      });
     }
   };
-  // const equals = (e) => {
-  //   dispatch({ type: "myCal/equals" });
-  // };
+   const equals = (e) => {
+     dispatch({ type: "myCal/equals" });
+   };
 
+  // const equals = (e) => {
+  //   let cal;
+
+  //   if (e?.target.innerText === "=") {
+  //     dispatch({ type: "myCal/setState", payload: { total: true } });
+  //   }
+  //   const tong = parseFloat(preState) + parseFloat(curState);
+  //   const payload = { ...payload, input: "", preState: tong, curState: "" };
+
+
+  //   console.log("payload",payload)
+  //   console.log("total",total)
+  //   console.log("curstate",curState)
+  //   console.log("prestate",preState)
+  //   console.log(tong)
+  //   dispatch({type: "myCal/equals", payload: cal });
+  //   console.log(state)
+
+
+  //   dispatch({ type: "myCal/setState", payload });
+  // };
 
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
@@ -75,9 +101,10 @@ const Home = (props) => {
     });
   };
 
-  // const reset = () => {
-  //   dispatch({ type: "myCal/reset" });
-  // };
+  const reset = () => {
+    dispatch({ type: "myCal/reset" });
+  };
+ 
 
   return (
     <>
@@ -157,22 +184,6 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      </>
+    </>
   );
-};
-const mapState = (state) => ({
-  preState: state.myCal.preState,
-  curState: state.myCal.curState,
-  input: state.myCal.input,
-  operator: state.myCal.operator,
-  total: state.myCal.total,
-
-});
-
-const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
-});
-
-
-export default connect(mapState, mapDispatch)(Home);
+}

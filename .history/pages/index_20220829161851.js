@@ -170,8 +170,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
+   reset: dispatch?.myCal.reset,
+   equals: dispatch?.myCal.equals,
 });
 
 

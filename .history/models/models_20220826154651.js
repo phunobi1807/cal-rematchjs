@@ -50,7 +50,6 @@ export const myCal = {
       }
 
       state = { ...state, input: "", preState: cal, curState: "", total: true };
-      return state;
     },
   },
   effects: {},

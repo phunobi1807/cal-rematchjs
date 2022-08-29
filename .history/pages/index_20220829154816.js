@@ -45,10 +45,9 @@ const Home = (props) => {
       null
     }
   };
-  // const equals = (e) => {
-  //   dispatch({ type: "myCal/equals" });
-  // };
-
+  const equals = (e) => {
+    dispatch({ type: "myCal/equals" });
+  };
 
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
@@ -75,9 +74,9 @@ const Home = (props) => {
     });
   };
 
-  // const reset = () => {
-  //   dispatch({ type: "myCal/reset" });
-  // };
+  const reset = () => {
+    dispatch({ type: "myCal/reset" });
+  };
 
   return (
     <>
@@ -170,8 +169,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
+   reset, equals, setState : dispatch.myCal,
+   return : reset, equals, setState
 });
 
 

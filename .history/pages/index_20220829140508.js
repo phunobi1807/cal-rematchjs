@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
+import { useDispatch, useSelector } from "react-redux";
+import { myCal } from "./../.history/models/models_20220826095827";
 import { connect } from "react-redux";
 
-const Home = (props) => {
-  const {preState, curState, input, operator, total, reset, equals, setState} = props
+const Home = () => {
+  // const { preState, curState, total, input, operator } = useSelector(
+  //   (state) => state.myCal
+  // );
+
+  // const dispatch = useDispatch();
+  console.log("preState", input);
+
   const inputNum = (e) => {
     const payload = {};
-    if (curState.includes(".") && e.target.innerText === ".") return;
+    if (curState?.includes(".") && e.target.innerText === ".") return;
 
     if (total) {
       payload.preState = "";
@@ -41,14 +49,12 @@ const Home = (props) => {
       dispatch({
         type: "myCal/setState",
         payload: { preState: curState, curState: "" },
-      }); 
-      null
+      });
     }
   };
-  // const equals = (e) => {
-  //   dispatch({ type: "myCal/equals" });
-  // };
-
+  const equals = (e) => {
+    dispatch({ type: "myCal/equals" });
+  };
 
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
@@ -75,9 +81,9 @@ const Home = (props) => {
     });
   };
 
-  // const reset = () => {
-  //   dispatch({ type: "myCal/reset" });
-  // };
+  const reset = () => {
+    dispatch({ type: "myCal/reset" });
+  };
 
   return (
     <>
@@ -157,22 +163,19 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      </>
+    </>
   );
 };
-const mapState = (state) => ({
-  preState: state.myCal.preState,
-  curState: state.myCal.curState,
-  input: state.myCal.input,
-  operator: state.myCal.operator,
-  total: state.myCal.total,
 
+const mapState = (state) => ({
+  myCal: state.myCal,
 });
+console.log(myCal);
 
 const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
+  setState: dispatch.myCal.setState,
+  reset: dispatch.myCal.reset,
+  equals: dispatch.myCal.equals,
 });
-
-
+console.log("setState", setState);
 export default connect(mapState, mapDispatch)(Home);

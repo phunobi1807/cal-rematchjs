@@ -4,6 +4,7 @@ const initialState = {
   input: "0",
   operator: null,
   total: false,
+  name: "Phu",
 };
 
 export const myCal = {

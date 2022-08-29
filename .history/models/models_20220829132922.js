@@ -40,7 +40,7 @@ export const myCal = {
           cal = parseFloat(preState) + parseFloat(curState);
           break;
         case "X":
-          cal = parseFloat(preState) * parseFloat(curState);
+              cal = parseFloat(preState) * parseFloat(curState);
           break;
         case "-":
           cal = parseFloat(preState) - parseFloat(curState);

@@ -49,7 +49,7 @@ export const myCal = {
           return;
       }
 
-      state = { ...state, input: "", preState: cal, curState: "", total: true };
+      state = { ...state, input: 0, preState: cal, curState: "", total: true };
       return state;
     },
   },

@@ -3,7 +3,7 @@ import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
 
 const Home = (props) => {
-  const {preState, curState, input, operator, total, reset, equals, setState} = props
+  const {preState, curState, input, operator, total, name} = props
   const inputNum = (e) => {
     const payload = {};
     if (curState.includes(".") && e.target.innerText === ".") return;
@@ -18,7 +18,7 @@ const Home = (props) => {
     payload.total = false;
     payload.input = payload.curState;
 
-    dispatch({ type: "myCal/setState", payload });
+    
   };
 
   useEffect(() => {
@@ -41,14 +41,12 @@ const Home = (props) => {
       dispatch({
         type: "myCal/setState",
         payload: { preState: curState, curState: "" },
-      }); 
-      null
+      });
     }
   };
-  // const equals = (e) => {
-  //   dispatch({ type: "myCal/equals" });
-  // };
-
+  const equals = (e) => {
+    dispatch({ type: "myCal/equals" });
+  };
 
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
@@ -75,9 +73,9 @@ const Home = (props) => {
     });
   };
 
-  // const reset = () => {
-  //   dispatch({ type: "myCal/reset" });
-  // };
+  const reset = () => {
+    dispatch({ type: "myCal/reset" });
+  };
 
   return (
     <>
@@ -170,9 +168,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
+  reset: dispatch.myCal.reset,
+  equals: dispatch.myCal.equals,
 });
-
 
 export default connect(mapState, mapDispatch)(Home);

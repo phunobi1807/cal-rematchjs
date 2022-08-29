@@ -15,7 +15,7 @@ export const myCal = {
         ...payload,
       };
 
-      return state;
+      return dispatchEvent.myCal.state;
     },
 
     reset: (state) => {
