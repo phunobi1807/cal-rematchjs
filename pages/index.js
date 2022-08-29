@@ -3,7 +3,16 @@ import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
 
 const Home = (props) => {
-  const {preState, curState, input, operator, total, reset, equals, setState} = props
+  const {
+    preState,
+    curState,
+    input,
+    operator,
+    total,
+    // reset,
+    // equals,
+    // setState,
+  } = props;
   const inputNum = (e) => {
     const payload = {};
     if (curState.includes(".") && e.target.innerText === ".") return;
@@ -17,67 +26,81 @@ const Home = (props) => {
       : e.target.innerText;
     payload.total = false;
     payload.input = payload.curState;
-
-    dispatch({ type: "myCal/setState", payload });
+    props.setState(payload);
+    // dispatch({ type: "myCal/setState", payload });
   };
 
   useEffect(() => {
-    dispatch({ type: "myCal/setState", payload: { input: "0" } });
+    // dispatch({ type: "myCal/setState", payload: { input: "0" } });
+    props.setState({ input: "0" });
   }, []);
 
   useEffect(() => {
-    dispatch({ type: "myCal/setState", payload: { input: curState } });
+    // dispatch({ type: "myCal/setState", payload: { input: curState } });
+    props.setState({ input: curState });
   }, [curState]);
 
   const operatorType = (e) => {
     const operator = e.target.innerText;
 
-    dispatch({ type: "myCal/setState", payload: { total: false, operator } });
+    // dispatch({ type: "myCal/setState", payload: { total: false, operator } });
+    props.setState({ total: false, operator });
 
     if (curState === "") return;
     if (preState !== "") {
       equals();
     } else {
-      dispatch({
-        type: "myCal/setState",
-        payload: { preState: curState, curState: "" },
-      }); 
-      null
+      props.setState({ preState: curState, curState: "" });
+
+      // dispatch({
+      //   type: "myCal/setState",
+      //   payload: { preState: curState, curState: "" },
+      // });
+      null;
     }
   };
   // const equals = (e) => {
   //   dispatch({ type: "myCal/equals" });
   // };
 
-
   const minusPlus = () => {
     if (curState.charAt(0) === "-") {
-      dispatch({
+      props.setState({ curState: curState.substring(1) });
+
+      /*  dispatch({
         type: "myCal/setState",
         payload: { curState: curState.substring(1) },
-      });
+      }); */
     } else {
-      dispatch({
+      props.setState({ curState: "-" + curState });
+
+      /*   dispatch({
         type: "myCal/setState",
         payload: { curState: "-" + curState },
-      });
+      }); */
     }
   };
 
   const percent = () => {
-    dispatch({
-      type: "myCal/setState",
-      payload: {
-        curState: preState
-          ? String((parseFloat(curState) / 100) * preState)
-          : String(parseFloat(curState) / 100),
-      },
+    props.setState({
+      curState: preState
+        ? String((parseFloat(curState) / 100) * preState)
+        : String(parseFloat(curState) / 100),
     });
+
+    // dispatch({
+    //   type: "myCal/setState",
+    //   payload: {
+    //     curState: preState
+    //       ? String((parseFloat(curState) / 100) * preState)
+    //       : String(parseFloat(curState) / 100),
+    //   },
+    // });
   };
 
-  // const reset = () => {
-  //   dispatch({ type: "myCal/reset" });
-  // };
+  /*  const reset = () => {
+     dispatch({ type: "myCal/reset" });
+  }; */
 
   return (
     <>
@@ -98,7 +121,7 @@ const Home = (props) => {
               />
             )}
           </div>
-          <div className="btn light-gray" onClick={reset}>
+          <div className="btn light-gray" onClick={props.reset}>
             AC
           </div>
           <div className="btn light-gray" onClick={percent}>
@@ -152,27 +175,36 @@ const Home = (props) => {
           <div className="btn" onClick={inputNum}>
             .
           </div>
-          <div className="btn" onClick={equals}>
+          <div className="btn" onClick={props.equals}>
             =
           </div>
         </div>
       </div>
-      </>
+    </>
   );
 };
-const mapState = (state) => ({
-  preState: state.myCal.preState,
-  curState: state.myCal.curState,
-  input: state.myCal.input,
-  operator: state.myCal.operator,
-  total: state.myCal.total,
+const mapState = (state) => {
+  return {
+    preState: state.myCal.preState,
+    curState: state.myCal.curState,
+    input: state.myCal.input,
+    operator: state.myCal.operator,
+    total: state.myCal.total,
+  };
+};
 
-});
-
-const mapDispatch = (dispatch) => ({
-   reset: () => dispatch?.myCal.reset,
-   equals: () => dispatch?.myCal.equals,
-});
-
+const mapDispatch = (dispatch) => {
+  return {
+    reset: () => {
+      dispatch({ type: "myCal/reset" });
+    },
+    equals: () => {
+      dispatch({ type: "myCal/equals" });
+    },
+    setState: (value) => {
+      dispatch({ type: "myCal/setState", payload: value });
+    },
+  };
+};
 
 export default connect(mapState, mapDispatch)(Home);
